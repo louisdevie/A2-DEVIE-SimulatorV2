@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\bike.png" />
+    <None Remove="Images\car.png" />
+    <None Remove="Images\dismiss.png" />
+    <None Remove="Images\graph.png" />
+    <None Remove="Images\hire.png" />
+    <None Remove="Images\schema.png" />
+    <None Remove="Images\scooter.png" />
+    <None Remove="Images\transport.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\dismiss.png" />
+    <Resource Include="Images\graph.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\hire.png" />
+    <Resource Include="Images\schema.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\scooter.png" />
+    <Resource Include="Images\transport.png" />
+    <Resource Include="Images\bike.png" />
+    <Resource Include="Images\car.png" />
+  </ItemGroup>
+
+</Project>
