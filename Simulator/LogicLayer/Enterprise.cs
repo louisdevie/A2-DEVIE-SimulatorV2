@@ -9,6 +9,7 @@
         private Workshop workshop;
         private Stock stock;
         private ClientService clients;
+        private ProductFactory _factory;
         #endregion
 
         #region Properties 
@@ -64,6 +65,7 @@
             workshop = new Workshop();
             stock = new Stock();
             clients = new ClientService();
+            this._factory = new ProductFactory();
         }
         #endregion
 
@@ -116,21 +118,7 @@
         /// <exception cref="NoEmployee">Not enough employee to build</exception>
         public void MakeProduct(string type)
         {
-            Product p;
-            switch(type)
-            {
-                case "bike":
-                    p = new Products.Bike();
-                    break;
-                case "scooter":
-                    p = new Products.Scooter();
-                    break;
-                case "car":
-                    p = new Products.Car();
-                    break;
-                default:
-                    throw new ProductUnknown();
-            }
+            Product p = this._factory.CreateProduct(type);
             // test if the product can be build
             if (materials < p.MaterialsNeeded)
                 throw new NotEnoughMaterials();
