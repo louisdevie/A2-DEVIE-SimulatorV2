@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace LogicLayer
 {
-    internal class ProductFactory
+    public class ProductFactory
     {
         private Dictionary<string, ConstructorInfo> _constructors;
 
