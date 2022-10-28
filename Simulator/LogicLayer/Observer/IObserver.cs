@@ -9,5 +9,8 @@ namespace LogicLayer.Observer
     public interface IObserver
     {
         void OnMoneyChanged(int money);
+        void OnStockChanged(int stock);
+        void OnMaterialsChanged(int materials);
+        void OnEmployeesChanged(int free, int total);
     }
 }
