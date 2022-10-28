@@ -5,6 +5,8 @@
     /// </summary>
     public class Enterprise
     {
+        private Timer _timer;
+
         #region associations
         private Workshop workshop;
         private Stock stock;
@@ -49,7 +51,6 @@
         /// </summary>
         public int TotalStock { get => stock.TotalStock; }
 
-
         #endregion
 
         #region Constructors
@@ -70,10 +71,22 @@
 
             this._factory = new ProductFactory();
             Initialise.InitialiseProductFactory(this._factory);
+
+            this._timer = new Timer(this.EndOfMonth, new object(), 0, Constants.MONTH_TIME);
+        }
+
+        ~Enterprise()
+        {
+            this._timer.Dispose();
         }
         #endregion
 
         #region methods
+        private void EndOfMonth(object? state)
+        {
+            this.PayEmployees();
+        }
+
         /// <summary>
         /// Buy some materials
         /// </summary>
