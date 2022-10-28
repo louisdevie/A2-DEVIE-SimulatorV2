@@ -13,15 +13,21 @@ namespace LogicLayer
     {
         private Random r;
         private Dictionary<string, int> needs;
+        private Dictionary<string, int> proba;
 
         public ClientService()
         {
             needs = new Dictionary<string, int>();
+            proba = new Dictionary<string, int>();
             r = new Random();
-            needs["bike"] = 0;
-            needs["car"] = 0;
-            needs["scooter"] = 0;
         }
+
+        public void RegisterProduct(String name, int proba)
+        {
+            this.proba.Add(name, proba);
+            this.needs.Add(name, 0);
+        }
+
         private int ProbaToClients(int proba)
         {
             return (int)(r.NextDouble() * proba);
@@ -29,10 +35,12 @@ namespace LogicLayer
         public void UpdateClients()
         {
             // the values are the probability new clients want a type...
-            needs["bike"] += ProbaToClients(20);
-            needs["scooter"] += ProbaToClients(14);
-            needs["car"] += ProbaToClients(10);
+            foreach (var proba in this.proba)
+            {
+                needs[proba.Key] += ProbaToClients(proba.Value);
+            }
         }
+
         /// <summary>
         /// Get clients needs
         /// </summary>

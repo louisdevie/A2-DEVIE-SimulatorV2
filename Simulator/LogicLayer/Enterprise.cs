@@ -64,7 +64,10 @@
             materials = 100;  
             workshop = new Workshop();
             stock = new Stock();
+
             clients = new ClientService();
+            Initialise.InitialiseClientService(this.clients);
+
             this._factory = new ProductFactory();
             Initialise.InitialiseProductFactory(this._factory);
         }
