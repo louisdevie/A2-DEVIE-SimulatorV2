@@ -12,6 +12,7 @@ namespace TestLogicLayer
         public void TestCreateProduct()
         {
             ProductFactory factory = new ProductFactory();
+            Initialise.InitialiseProductFactory(factory);
 
             Product bike = factory.CreateProduct("bike");
             Assert.IsType<Bike>(bike);

@@ -70,5 +70,16 @@ namespace TestLogicLayer
                 while (true) e.PayEmployees();
             });
         }
+
+        [Fact]
+        public void TestTimer()
+        {
+            Enterprise e = new Enterprise();
+            int initialMoney = e.Money;
+            e.Hire();
+            e.Hire();
+            Thread.Sleep(Constants.MONTH_TIME * 2);
+            Assert.True(e.Money < initialMoney);
+        }
     }
 }
