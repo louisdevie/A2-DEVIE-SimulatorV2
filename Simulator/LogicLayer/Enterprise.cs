@@ -1,9 +1,11 @@
-﻿namespace LogicLayer
+﻿using LogicLayer.Observer;
+
+namespace LogicLayer
 {
     /// <summary>
     /// Enterprise simulation
     /// </summary>
-    public class Enterprise
+    public class Enterprise : Subject
     {
         private Timer _timer;
 
@@ -15,11 +17,19 @@
         #endregion
 
         #region Properties 
+        private int money;
         /// <summary>
         /// Gets the amount of money that enterprise disposes
         /// </summary>
-        public int Money { get => money; }
-        private int money;
+        public int Money
+        {
+            get => money;
+            set
+            {
+                money = value;
+                this.NotifyMoneyChanged(this.Money);
+            }
+        }
 
         private int materials;
         /// <summary>
@@ -58,9 +68,9 @@
         /// <summary>
         /// Initialize the enterprise
         /// </summary>
-        public Enterprise()
+        public Enterprise() : base()
         {
-            money = 300000;
+            Money = 300000;
             employees = 4;
             materials = 100;  
             workshop = new Workshop();
@@ -94,9 +104,9 @@
         public void BuyMaterials()
         {
             int cost = Constants.MATERIALS * Constants.COST_MATERIALS;
-            if (money < cost)
+            if (Money < cost)
                 throw new NotEnoughMoney();
-            money -= cost;
+            Money -= cost;
             materials += Constants.MATERIALS;
         }
 
@@ -118,11 +128,11 @@
         {
             if (employees < 1) throw new NoEmployee();
             int cost = Constants.BONUS;
-            if (money < cost)
+            if (Money < cost)
                 throw new NotEnoughMoney();
             if (FreeEmployees < 1)
                 throw new EmployeeWorking();
-            money -= cost;
+            Money -= cost;
             employees--;
         }
 
@@ -191,9 +201,9 @@
         public void PayEmployees()
         {
             int cost = employees * Constants.SALARY;
-            if (cost > money)
+            if (cost > Money)
                 throw new NotEnoughMoney();
-            money -= cost;
+            Money -= cost;
         }
 
         /// <summary>
@@ -221,7 +231,7 @@
             if(p!=null)
             {
                 stock.Remove(p);
-                money += p.Price;
+                Money += p.Price;
                 clients.Buy(type);
             }
         }
