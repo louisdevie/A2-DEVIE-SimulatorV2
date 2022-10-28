@@ -13,10 +13,23 @@ namespace LogicLayer
         public ProductFactory()
         {
             this._constructors = new Dictionary<string, ConstructorInfo>();
+        }
 
-            this._constructors.Add("bike", typeof (Bike).GetConstructor(Array.Empty<Type>())!);
-            this._constructors.Add("car", typeof (Car).GetConstructor(Array.Empty<Type>())!);
-            this._constructors.Add("scooter", typeof (Scooter).GetConstructor(Array.Empty<Type>())!);
+        /// <summary>
+        /// Register a product class
+        /// </summary>
+        /// <param name="name">The name of the product type</param>
+        /// <param name="type">The product class</param>
+        public void Add(String name, Type type)
+        {
+            if (type.IsSubclassOf(typeof(Product)))
+            {
+                this._constructors.Add(name, type.GetConstructor(Array.Empty<Type>())!);
+            }
+            else
+            {
+                throw new ArgumentException("The type must inherit from Product");                
+            }
         }
 
         /// <summary>

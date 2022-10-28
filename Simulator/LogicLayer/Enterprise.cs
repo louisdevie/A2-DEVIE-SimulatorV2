@@ -66,6 +66,7 @@
             stock = new Stock();
             clients = new ClientService();
             this._factory = new ProductFactory();
+            Initialise.InitialiseProductFactory(this._factory);
         }
         #endregion
 
