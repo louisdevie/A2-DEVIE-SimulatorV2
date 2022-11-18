@@ -108,9 +108,18 @@ namespace LogicLayer
         #endregion
 
         #region methods
+        public void Init()
+        {
+            this.NotifyStockChanged(this.TotalStock);
+            this.NotifyEmployeesChanged(this.FreeEmployees, this.Employees);
+            this.NotifyMaterialsChanged(this.Materials);
+            this.NotifyMoneyChanged(this.Money);
+        }
+
         private void EndOfMonth(object? state)
         {
             this.PayEmployees();
+            this.UpdateClients();
         }
 
         /// <summary>
@@ -171,6 +180,7 @@ namespace LogicLayer
             Materials -= p.MaterialsNeeded; // consume materials
             // start the building...
             workshop.StartProduction(p);
+            this.NotifyEmployeesChanged(this.FreeEmployees, this.Employees);
         }
 
         /// <summary>
@@ -187,6 +197,7 @@ namespace LogicLayer
                 stock.Add(product);
                 workshop.Remove(product);
                 this.NotifyStockChanged(this.TotalStock);
+                this.NotifyEmployeesChanged(this.FreeEmployees, this.Employees);
             }
 
         }
@@ -260,6 +271,9 @@ namespace LogicLayer
         public void UpdateClients()
         {            
             clients.UpdateClients();
+            this.NotifyClientNeedsChanged("bike", this.clients.GetAskFor("bike"));
+            this.NotifyClientNeedsChanged("scooter", this.clients.GetAskFor("scooter"));
+            this.NotifyClientNeedsChanged("car", this.clients.GetAskFor("car"));
         }
 
         /// <summary>

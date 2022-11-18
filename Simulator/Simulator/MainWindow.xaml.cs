@@ -32,12 +32,11 @@ namespace Simulator
             DataContext = enterprise;
             timerSecond = new Timer(TimerSecondTick);
             timerSecond.Change(0, LogicLayer.Constants.TIME_SLICE); 
-            timerMonth = new Timer(TimerMonthTick);
-            timerMonth.Change(0, LogicLayer.Constants.MONTH_TIME);
             timerWeek = new Timer(TimerWeekTick);
             timerWeek.Change(0, LogicLayer.Constants.WEEK_TIME);
 
             this.enterprise.Register(this);
+            this.enterprise.Init();
         }
 
         private void TimerSecondTick(object? data)
@@ -58,27 +57,6 @@ namespace Simulator
             });
         }
 
-        private void TimerMonthTick(object? data)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                try
-                {
-                    enterprise.UpdateClients();
-                }
-                catch (LogicLayer.NotEnoughMoney)
-                {
-                    timerSecond.Dispose();
-                    timerMonth.Dispose();
-
-                    MessageBox.Show("Not enough money to pay employees !");
-                    EndOfSimulation();
-                }
-            });
-            
-            
-        }
-
         private void EndOfSimulation()
         {
             MessageBox.Show("END OF SIMULATION");
@@ -93,10 +71,6 @@ namespace Simulator
             bikesProd.Content = enterprise.GetProduction("bike").ToString();
             scootsProd.Content = enterprise.GetProduction("scooter").ToString();
             carsProd.Content = enterprise.GetProduction("car").ToString();
-
-            bikeAsk.Content = enterprise.GetAskClients("bike").ToString();
-            scootAsk.Content = enterprise.GetAskClients("scooter").ToString();
-            carAsk.Content = enterprise.GetAskClients("car").ToString();
         }
 
         private void BuyMaterials(object sender, RoutedEventArgs e)
@@ -217,6 +191,22 @@ namespace Simulator
         public void OnEmployeesChanged(int free, int total)
         {
             employees.Content = free.ToString() + "/" + total.ToString();
+        }
+
+        public void OnClientNeedsChanged(string type, int needs)
+        {
+            switch (type)
+            {
+                case "bike":
+                    Dispatcher.Invoke(() => bikeAsk.Content = needs.ToString());
+                    break;
+                case "scooter":
+                    Dispatcher.Invoke(() => scootAsk.Content = needs.ToString());
+                    break;
+                case "car":
+                    Dispatcher.Invoke(() => carAsk.Content = needs.ToString());
+                    break;
+            }
         }
     }
 }
