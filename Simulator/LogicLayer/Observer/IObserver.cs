@@ -12,5 +12,6 @@ namespace LogicLayer.Observer
         void OnStockChanged(int stock);
         void OnMaterialsChanged(int materials);
         void OnEmployeesChanged(int free, int total);
+        void OnClientNeedsChanged(String type, int needs);
     }
 }

@@ -52,5 +52,13 @@ namespace LogicLayer.Observer
                 observer.OnEmployeesChanged(free, total);
             }
         }
+
+        protected void NotifyClientNeedsChanged(String type, int needs)
+        {
+            foreach (IObserver observer in this._observers)
+            {
+                observer.OnClientNeedsChanged(type, needs);
+            }
+        }
     }
 }
