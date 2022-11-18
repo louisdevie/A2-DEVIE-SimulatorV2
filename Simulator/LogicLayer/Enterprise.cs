@@ -24,7 +24,7 @@ namespace LogicLayer
         public int Money
         {
             get => money;
-            set
+            private set
             {
                 money = value;
                 this.NotifyMoneyChanged(this.Money);
@@ -35,20 +35,36 @@ namespace LogicLayer
         /// <summary>
         /// Gets the amount of materials that enterprise disposes
         /// </summary>
-        public int Materials { get => materials; }
+        public int Materials
+        {
+            get => materials; 
+            private set
+            {
+                materials = value;
+                this.NotifyMaterialsChanged(this.Materials);
+            }
+        }
 
         private int employees;
         /// <summary>
         /// Gets the number of employees
         /// </summary>
-        public int Employees { get => employees; }
+        public int Employees
+        {
+            get => employees;
+            private set
+            {
+                employees = value;
+                this.NotifyEmployeesChanged(this.FreeEmployees, employees);
+            }
+        }
 
         /// <summary>
         /// Gets the number of free employees (they can work)
         /// </summary>
         public int FreeEmployees
         {
-            get => employees - EmployeesWorkshop;
+            get => Employees - EmployeesWorkshop;
         }
        
         /// <summary>
@@ -70,10 +86,10 @@ namespace LogicLayer
         /// </summary>
         public Enterprise() : base()
         {
-            Money = 300000;
-            employees = 4;
-            materials = 100;  
             workshop = new Workshop();
+            Money = 300000;
+            Employees = 4;
+            Materials = 100;  
             stock = new Stock();
 
             clients = new ClientService();
@@ -107,7 +123,7 @@ namespace LogicLayer
             if (Money < cost)
                 throw new NotEnoughMoney();
             Money -= cost;
-            materials += Constants.MATERIALS;
+            Materials += Constants.MATERIALS;
         }
 
         /// <summary>
@@ -115,7 +131,7 @@ namespace LogicLayer
         /// </summary>        
         public void Hire()
         {
-            ++employees;
+            ++Employees;
         }
 
         /// <summary>
@@ -126,14 +142,14 @@ namespace LogicLayer
         /// <exception cref="EmployeeWorking">If all employees worked, no dismiss is possible</exception>
         public void Dismiss()
         {
-            if (employees < 1) throw new NoEmployee();
+            if (Employees < 1) throw new NoEmployee();
             int cost = Constants.BONUS;
             if (Money < cost)
                 throw new NotEnoughMoney();
             if (FreeEmployees < 1)
                 throw new EmployeeWorking();
             Money -= cost;
-            employees--;
+            Employees--;
         }
 
         /// <summary>
@@ -147,12 +163,12 @@ namespace LogicLayer
         {
             Product p = this._factory.CreateProduct(type);
             // test if the product can be build
-            if (materials < p.MaterialsNeeded)
+            if (Materials < p.MaterialsNeeded)
                 throw new NotEnoughMaterials();
-            if (employees - EmployeesWorkshop < p.EmployeesNeeded)
+            if (Employees - EmployeesWorkshop < p.EmployeesNeeded)
                 throw new NoEmployee();
 
-            materials -= p.MaterialsNeeded; // consume materials
+            Materials -= p.MaterialsNeeded; // consume materials
             // start the building...
             workshop.StartProduction(p);
         }
@@ -170,6 +186,7 @@ namespace LogicLayer
             {
                 stock.Add(product);
                 workshop.Remove(product);
+                this.NotifyStockChanged(this.TotalStock);
             }
 
         }
@@ -200,7 +217,7 @@ namespace LogicLayer
         /// <exception cref="NotEnoughMoney">if money is not enough !</exception>
         public void PayEmployees()
         {
-            int cost = employees * Constants.SALARY;
+            int cost = Employees * Constants.SALARY;
             if (cost > Money)
                 throw new NotEnoughMoney();
             Money -= cost;
@@ -233,6 +250,7 @@ namespace LogicLayer
                 stock.Remove(p);
                 Money += p.Price;
                 clients.Buy(type);
+                this.NotifyStockChanged(this.TotalStock);
             }
         }
 

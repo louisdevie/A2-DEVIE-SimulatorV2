@@ -81,5 +81,21 @@ namespace TestLogicLayer
             Thread.Sleep(Constants.MONTH_TIME * 2);
             Assert.True(e.Money < initialMoney);
         }
+
+        [Fact]
+        public void TestNotifications()
+        {
+            Enterprise e = new Enterprise();
+
+            MockObserver obs = new MockObserver();
+            e.Register(obs);
+
+            Assert.False(obs.Notified);
+
+            e.BuyMaterials();
+            Assert.Equal(obs.Materials, e.Materials);
+
+            Assert.True(obs.Notified);
+        }
     }
 }

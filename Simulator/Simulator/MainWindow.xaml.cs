@@ -90,17 +90,9 @@ namespace Simulator
             enterprise.UpdateProductions();
             enterprise.UpdateBuying();
             
-            totalStock.Content = enterprise.TotalStock.ToString()+" %";
-            materials.Content = enterprise.Materials.ToString();
-            employees.Content = enterprise.FreeEmployees.ToString()+"/"+enterprise.Employees.ToString();
-
             bikesProd.Content = enterprise.GetProduction("bike").ToString();
             scootsProd.Content = enterprise.GetProduction("scooter").ToString();
             carsProd.Content = enterprise.GetProduction("car").ToString();
-
-            bikeStock.Content = enterprise.GetStock("bike").ToString();
-            scootStock.Content = enterprise.GetStock("scooter").ToString();
-            carStock.Content = enterprise.GetStock("car").ToString();
 
             bikeAsk.Content = enterprise.GetAskClients("bike").ToString();
             scootAsk.Content = enterprise.GetAskClients("scooter").ToString();
@@ -207,6 +199,24 @@ namespace Simulator
             {
                 this.money.Content = money.ToString("C");
             });
+        }
+
+        public void OnStockChanged(int stock)
+        {
+            totalStock.Content = stock.ToString() + " %";
+            bikeStock.Content = enterprise.GetStock("bike").ToString();
+            scootStock.Content = enterprise.GetStock("scooter").ToString();
+            carStock.Content = enterprise.GetStock("car").ToString();
+        }
+
+        public void OnMaterialsChanged(int materials)
+        {
+            this.materials.Content = materials.ToString();
+        }
+
+        public void OnEmployeesChanged(int free, int total)
+        {
+            employees.Content = free.ToString() + "/" + total.ToString();
         }
     }
 }
