@@ -16,7 +16,7 @@ namespace LogicLayer
         private ProductFactory _factory;
         #endregion
 
-        #region Properties 
+        #region Properties
         private int money;
         /// <summary>
         /// Gets the amount of money that enterprise disposes
@@ -77,6 +77,7 @@ namespace LogicLayer
         /// </summary>
         public int TotalStock { get => stock.TotalStock; }
 
+        public IEnumerable<String> NamesOfProducts => this._factory.Types;
         #endregion
 
         #region Constructors
@@ -271,9 +272,10 @@ namespace LogicLayer
         public void UpdateClients()
         {            
             clients.UpdateClients();
-            this.NotifyClientNeedsChanged("bike", this.clients.GetAskFor("bike"));
-            this.NotifyClientNeedsChanged("scooter", this.clients.GetAskFor("scooter"));
-            this.NotifyClientNeedsChanged("car", this.clients.GetAskFor("car"));
+            foreach (String type in this._factory.Types)
+            {
+                this.NotifyClientNeedsChanged(type, this.clients.GetAskFor(type));
+            }
         }
 
         /// <summary>

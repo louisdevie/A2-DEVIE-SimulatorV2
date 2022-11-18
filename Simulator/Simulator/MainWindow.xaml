@@ -31,32 +31,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="84"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Style="{StaticResource resBtn}" Click="BuildBike"  >
-                    <Button.Content>
-                        <StackPanel>
-                            <Image Source="Images/bike.png" />
-                            <Label Content="Build a bike" Style="{StaticResource legend}" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Style="{StaticResource resBtn}" Click="BuildScooter">
-                    <Button.Content>
-                        <StackPanel>
-                            <Image Source="Images/scooter.png"  />
-                            <Label Content="Build a scooter" Style="{StaticResource legend}" />
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-                <Button Style="{StaticResource resBtn}" Click="BuildCar">
-                    <Button.Content>
-                        <StackPanel>
-                            <Image Source="Images/car.png"  />
-                            <Label Content="Build a car" Style="{StaticResource legend}"/>
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
+            <StackPanel x:Name="panelBuild" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center"></StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
