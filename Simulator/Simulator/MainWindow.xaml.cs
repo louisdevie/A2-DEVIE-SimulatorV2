@@ -31,7 +31,7 @@ namespace Simulator
             enterprise = new LogicLayer.Enterprise();
             DataContext = enterprise;
             timerSecond = new Timer(TimerSecondTick);
-            timerSecond.Change(0, LogicLayer.Constants.TIME_SLICE); 
+            timerSecond.Change(0, LogicLayer.Constants.TIME_SLICE);
             timerWeek = new Timer(TimerWeekTick);
             timerWeek.Change(0, LogicLayer.Constants.WEEK_TIME);
 
@@ -40,6 +40,8 @@ namespace Simulator
 
             this.InitPanelBuild();
             this.InitPanelProd();
+            this.InitPanelStock();
+            this.InitPanelNeeds();
         }
         private void InitPanelBuild()
         {
@@ -69,7 +71,8 @@ namespace Simulator
                 panelBuild.Children.Add(button);
             }
         }
-        private void InitPanelProd()
+
+        private void InitPanel(StackPanel panel, String labelNameSuffix)
         {
             foreach (String type in this.enterprise.NamesOfProducts)
             {
@@ -95,7 +98,7 @@ namespace Simulator
 
                 Label label = new Label
                 {
-                    Name = type + "sProd",
+                    Name = type + labelNameSuffix,
                     Content = "0",
                     Style = Application.Current.TryFindResource("legend") as Style,
                 };
@@ -103,9 +106,15 @@ namespace Simulator
 
                 border.Child = stackPanel;
 
-                panelProd.Children.Add(border);
+                panel.Children.Add(border);
             }
         }
+
+        private void InitPanelProd() => InitPanel(panelProd, "sProd");
+
+        private void InitPanelStock() => InitPanel(panelStock, "sStock");
+
+        private void InitPanelNeeds() => InitPanel(panelNeeds, "sNeeds");
 
         private void TimerSecondTick(object? data)
         {
@@ -114,7 +123,7 @@ namespace Simulator
                 // every second, to update screen
                 UpdateScreen();
             });
-            
+
         }
 
         private void TimerWeekTick(object? data)
@@ -144,11 +153,11 @@ namespace Simulator
                 enterprise.BuyMaterials();
                 UpdateScreen();
             }
-            catch(LogicLayer.NotEnoughMoney)
+            catch (LogicLayer.NotEnoughMoney)
             {
                 MessageBox.Show("Not enough money to buy materials !");
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 MessageBox.Show(x.Message);
             }
@@ -174,19 +183,19 @@ namespace Simulator
                 enterprise.Dismiss();
                 UpdateScreen();
             }
-            catch(LogicLayer.NoEmployee)
+            catch (LogicLayer.NoEmployee)
             {
                 MessageBox.Show("There is no employee to dismiss");
             }
-            catch(LogicLayer.NotEnoughMoney)
+            catch (LogicLayer.NotEnoughMoney)
             {
                 MessageBox.Show("There is not enough money to puy dismiss bonus");
             }
-            catch(LogicLayer.EmployeeWorking)
+            catch (LogicLayer.EmployeeWorking)
             {
                 MessageBox.Show("You can't dismiss no : employees working");
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 MessageBox.Show(x.Message);
             }
@@ -205,11 +214,11 @@ namespace Simulator
             }
             catch (LogicLayer.NotEnoughMaterials)
             {
-                MessageBox.Show("You do not have suffisent materials to build a "+s);
+                MessageBox.Show("You do not have suffisent materials to build a " + s);
             }
             catch (LogicLayer.NoEmployee)
             {
-                MessageBox.Show("You do not have enough employees to build a "+s);
+                MessageBox.Show("You do not have enough employees to build a " + s);
             }
             catch (Exception x)
             {
@@ -242,9 +251,15 @@ namespace Simulator
         public void OnStockChanged(int stock)
         {
             totalStock.Content = stock.ToString() + " %";
-            bikeStock.Content = enterprise.GetStock("bike").ToString();
-            scootStock.Content = enterprise.GetStock("scooter").ToString();
-            carStock.Content = enterprise.GetStock("car").ToString();
+            foreach (String type in this.enterprise.NamesOfProducts)
+            {
+                string name = type + "sStock";
+                var maybeLabel = UIChildFinder.FindChild(panelStock, name, typeof(Label));
+                if (maybeLabel is Label label)
+                {
+                    label.Content = enterprise.GetStock(type).ToString();
+                }
+            }
         }
 
         public void OnMaterialsChanged(int materials)
@@ -259,18 +274,15 @@ namespace Simulator
 
         public void OnClientNeedsChanged(string type, int needs)
         {
-            switch (type)
+            string name = type + "sNeeds";
+            Dispatcher.Invoke(() =>
             {
-                case "bike":
-                    Dispatcher.Invoke(() => bikeAsk.Content = needs.ToString());
-                    break;
-                case "scooter":
-                    Dispatcher.Invoke(() => scootAsk.Content = needs.ToString());
-                    break;
-                case "car":
-                    Dispatcher.Invoke(() => carAsk.Content = needs.ToString());
-                    break;
-            }
+                var maybeLabel = UIChildFinder.FindChild(panelNeeds, name, typeof(Label));
+                if (maybeLabel is Label label)
+                {
+                    label.Content = needs.ToString();
+                }
+            });
         }
 
         public void OnProductionChanged(string type)
