@@ -181,6 +181,7 @@ namespace LogicLayer
             Materials -= p.MaterialsNeeded; // consume materials
             // start the building...
             workshop.StartProduction(p);
+            this.NotifyProductionChanged(p.Name);
             this.NotifyEmployeesChanged(this.FreeEmployees, this.Employees);
         }
 
@@ -197,6 +198,7 @@ namespace LogicLayer
             {
                 stock.Add(product);
                 workshop.Remove(product);
+                this.NotifyProductionChanged(product.Name);
                 this.NotifyStockChanged(this.TotalStock);
                 this.NotifyEmployeesChanged(this.FreeEmployees, this.Employees);
             }

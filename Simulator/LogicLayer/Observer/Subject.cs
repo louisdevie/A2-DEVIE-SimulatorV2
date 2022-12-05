@@ -60,5 +60,13 @@ namespace LogicLayer.Observer
                 observer.OnClientNeedsChanged(type, needs);
             }
         }
+
+        protected void NotifyProductionChanged(String type)
+        {
+            foreach (IObserver observer in this._observers)
+            {
+                observer.OnProductionChanged(type);
+            }
+        }
     }
 }

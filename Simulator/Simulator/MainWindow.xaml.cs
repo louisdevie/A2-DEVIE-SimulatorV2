@@ -39,6 +39,7 @@ namespace Simulator
             this.enterprise.Init();
 
             this.InitPanelBuild();
+            this.InitPanelProd();
         }
         private void InitPanelBuild()
         {
@@ -66,6 +67,43 @@ namespace Simulator
                 panel.Children.Add(label);
                 // add the button to the parent panel 
                 panelBuild.Children.Add(button);
+            }
+        }
+        private void InitPanelProd()
+        {
+            foreach (String type in this.enterprise.NamesOfProducts)
+            {
+                Border border = new Border
+                {
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(2),
+                };
+
+                StackPanel stackPanel = new StackPanel { };
+
+                String uri = String.Format(
+                    "pack://application:,,,/Simulator;component/Images/{0}.png",
+                    type
+                );
+                Image image = new Image
+                {
+                    Source = new BitmapImage(new Uri(uri)),
+                    Width = 40,
+                };
+                stackPanel.Children.Add(image);
+
+                Label label = new Label
+                {
+                    Name = type + "sProd",
+                    Content = "0",
+                    Style = Application.Current.TryFindResource("legend") as Style,
+                };
+                stackPanel.Children.Add(label);
+
+                border.Child = stackPanel;
+
+                panelProd.Children.Add(border);
             }
         }
 
@@ -97,10 +135,6 @@ namespace Simulator
         {
             enterprise.UpdateProductions();
             enterprise.UpdateBuying();
-            
-            bikesProd.Content = enterprise.GetProduction("bike").ToString();
-            scootsProd.Content = enterprise.GetProduction("scooter").ToString();
-            carsProd.Content = enterprise.GetProduction("car").ToString();
         }
 
         private void BuyMaterials(object sender, RoutedEventArgs e)
@@ -237,6 +271,19 @@ namespace Simulator
                     Dispatcher.Invoke(() => carAsk.Content = needs.ToString());
                     break;
             }
+        }
+
+        public void OnProductionChanged(string type)
+        {
+            string name = type + "sProd";
+            Dispatcher.Invoke(() =>
+            {
+                var test = UIChildFinder.FindChild(panelProd, name, typeof(Label));
+                if (test is Label label)
+                {
+                    label.Content = enterprise.GetProduction(type).ToString();
+                }
+            });
         }
     }
 }
