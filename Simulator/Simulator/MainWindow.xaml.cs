@@ -97,14 +97,17 @@ namespace Simulator
             bikesProd.Content = enterprise.GetProduction("bike").ToString();
             scootsProd.Content = enterprise.GetProduction("scooter").ToString();
             carsProd.Content = enterprise.GetProduction("car").ToString();
+            telecsProd.Content = enterprise.GetProduction("telec").ToString();
 
             bikeStock.Content = enterprise.GetStock("bike").ToString();
             scootStock.Content = enterprise.GetStock("scooter").ToString();
             carStock.Content = enterprise.GetStock("car").ToString();
+            telecsStock.Content = enterprise.GetStock("telec").ToString();
 
             bikeAsk.Content = enterprise.GetAskClients("bike").ToString();
             scootAsk.Content = enterprise.GetAskClients("scooter").ToString();
             carAsk.Content = enterprise.GetAskClients("car").ToString();
+            telecsAsk.Content = enterprise.GetAskClients("telec").ToString();
         }
 
         private void BuyMaterials(object sender, RoutedEventArgs e)
@@ -199,6 +202,11 @@ namespace Simulator
         private void BuildCar(object sender, RoutedEventArgs e)
         {
             BuildProduct("car");
+        }
+
+        private void BuildTelec(object sender, RoutedEventArgs e)
+        {
+            BuildProduct("telec");
         }
     }
 }

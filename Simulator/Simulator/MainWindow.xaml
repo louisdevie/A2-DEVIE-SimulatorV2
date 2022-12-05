@@ -56,6 +56,14 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
+                <Button Style="{StaticResource resBtn}" Click="BuildTelec"  >
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="Images/telec.png" />
+                            <Label Content="Build an e-scooter" Style="{StaticResource legend}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -100,6 +108,12 @@
                                         <Label x:Name="carsProd" Content="0" Style="{StaticResource legend}" />
                                     </StackPanel>
                                 </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Margin="2" >
+                                    <StackPanel>
+                                        <Image Source="Images/telec.png" Width="40" />
+                                        <Label x:Name="telecsProd" Content="0" Style="{StaticResource legend}" />
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
@@ -123,6 +137,12 @@
                                     <StackPanel>
                                         <Image Source="Images/car.png" Width="40" />
                                         <Label x:Name="carStock" Content="0" Style="{StaticResource legend}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Margin="2" >
+                                    <StackPanel>
+                                        <Image Source="Images/telec.png" Width="40" />
+                                        <Label x:Name="telecsStock" Content="0" Style="{StaticResource legend}" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -149,6 +169,12 @@
                                     <StackPanel>
                                         <Image Source="Images/car.png" Width="40" />
                                         <Label x:Name="carAsk" Content="0" Style="{StaticResource legend}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Margin="2" >
+                                    <StackPanel>
+                                        <Image Source="Images/telec.png" Width="40" />
+                                        <Label x:Name="telecsAsk" Content="0" Style="{StaticResource legend}" />
                                     </StackPanel>
                                 </Border>
                             </StackPanel>

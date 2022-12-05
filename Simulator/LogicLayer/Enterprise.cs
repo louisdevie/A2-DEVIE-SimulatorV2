@@ -128,6 +128,9 @@
                 case "car":
                     p = new Products.Car();
                     break;
+                case "telec":
+                    p = new Products.EScooter();
+                    break;
                 default:
                     throw new ProductUnknown();
             }
@@ -196,7 +199,11 @@
         /// </summary>
         public void UpdateBuying()
         {            
-            if(clients.WantToBuy("bike"))
+            if(clients.WantToBuy("telec"))
+            {
+                TrySell("telec");
+            }
+            else if (clients.WantToBuy("bike"))
             {
                 TrySell("bike");
             }

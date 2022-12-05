@@ -15,6 +15,7 @@
     <None Remove="Images\hire.png" />
     <None Remove="Images\schema.png" />
     <None Remove="Images\scooter.png" />
+    <None Remove="Images\telec.png" />
     <None Remove="Images\transport.png" />
   </ItemGroup>
 
@@ -32,6 +33,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\scooter.png" />
+    <Resource Include="Images\telec.png" />
     <Resource Include="Images\transport.png" />
     <Resource Include="Images\bike.png" />
     <Resource Include="Images\car.png" />

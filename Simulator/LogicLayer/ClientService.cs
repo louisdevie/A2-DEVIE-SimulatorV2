@@ -21,6 +21,7 @@ namespace LogicLayer
             needs["bike"] = 0;
             needs["car"] = 0;
             needs["scooter"] = 0;
+            needs["telec"] = 0;
         }
         private int ProbaToClients(int proba)
         {
@@ -32,6 +33,7 @@ namespace LogicLayer
             needs["bike"] += ProbaToClients(20);
             needs["scooter"] += ProbaToClients(14);
             needs["car"] += ProbaToClients(10);
+            needs["telec"] += ProbaToClients(24);
         }
         /// <summary>
         /// Get clients needs
