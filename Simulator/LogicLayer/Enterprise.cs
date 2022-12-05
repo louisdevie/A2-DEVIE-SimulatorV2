@@ -241,8 +241,12 @@ namespace LogicLayer
         /// Update the buying status
         /// </summary>
         public void UpdateBuying()
-        {            
-            if(clients.WantToBuy("bike"))
+        {       
+            if (clients.WantToBuy("telec"))
+            {
+                TrySell("telec");
+            }     
+            else if(clients.WantToBuy("bike"))
             {
                 TrySell("bike");
             }

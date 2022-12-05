@@ -14,6 +14,7 @@ namespace LogicLayer
             factory.Add("bike", typeof(Bike));
             factory.Add("scooter", typeof(Scooter));
             factory.Add("car", typeof(Car));
+            factory.Add("telec", typeof(EScooter));
         }
 
         static internal void InitialiseClientService(ClientService clientService)
@@ -21,6 +22,7 @@ namespace LogicLayer
             clientService.RegisterProduct("bike", 20);
             clientService.RegisterProduct("scooter", 14);
             clientService.RegisterProduct("car", 10);
+            clientService.RegisterProduct("telec", 26);
         }
     }
 }
